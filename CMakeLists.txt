@@ -24,29 +24,3 @@ project(args CXX)
 
 add_library(args INTERFACE)
 target_include_directories(args INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}")
-
-add_executable(argstest test.cxx)
-target_link_libraries(argstest args)
-set_property(TARGET argstest PROPERTY CXX_STANDARD 11)
-
-if (MSVC)
-    target_compile_options(argstest PRIVATE /W4 /WX /bigobj)
-else ()
-    target_compile_options(argstest PRIVATE -Wall -Wextra -Werror -pedantic -Wshadow -Wunused-parameter)
-endif ()
-
-add_executable(argstest-multiple-inclusion test/multiple_inclusion_1.cxx test/multiple_inclusion_2.cxx)
-target_link_libraries(argstest-multiple-inclusion args)
-set_property(TARGET argstest-multiple-inclusion PROPERTY CXX_STANDARD 11)
-
-add_executable(gitlike examples/gitlike.cxx)
-target_link_libraries(gitlike args)
-set_property(TARGET gitlike PROPERTY CXX_STANDARD 11)
-
-add_executable(completion examples/completion.cxx)
-target_link_libraries(completion args)
-set_property(TARGET completion PROPERTY CXX_STANDARD 11)
-
-enable_testing()
-add_test(NAME "test" COMMAND argstest)
-add_test(NAME "test-multiple-inclusion" COMMAND argstest-multiple-inclusion)
